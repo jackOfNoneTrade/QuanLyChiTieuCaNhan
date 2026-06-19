@@ -2,7 +2,7 @@ CXX      = g++
 CXXFLAGS = -Wall -Wextra -I include/
 SRCS     = src/main.cpp src/tienich.cpp src/giaodich.cpp \
            src/ngansach.cpp src/baocao.cpp src/taodata.cpp
-TARGET   = build/quanlychitieu
+TARGET   = build/quanlychitieu.exe
 
 .PHONY: all run clean
 
