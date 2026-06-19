@@ -1,0 +1,50 @@
+1|1|4|2025|Thu|Luong|8000000.00|Luong thang 4
+2|15|4|2025|Thu|Phu cap|500000.00|Phu cap di lai
+3|20|4|2025|Thu|Lam them|1200000.00|Gia su cuoi tuan
+4|2|4|2025|Chi|An uong|85000.00|Com trua van phong
+5|3|4|2025|Chi|An uong|120000.00|An toi voi ban
+6|5|4|2025|Chi|Di chuyen|50000.00|Xe om di hoc
+7|7|4|2025|Chi|Hoc tap|350000.00|Mua sach giao trinh
+8|10|4|2025|Chi|An uong|200000.00|Sieu thi cuoi tuan
+9|12|4|2025|Chi|Giai tri|150000.00|Xem phim
+10|14|4|2025|Chi|Di chuyen|80000.00|Xang xe may
+11|16|4|2025|Chi|Hoc tap|500000.00|Hoc phi khoa online
+12|18|4|2025|Chi|An uong|95000.00|Cafe lam viec
+13|20|4|2025|Chi|Sinh hoat|200000.00|Tien dien
+14|22|4|2025|Chi|An uong|180000.00|An toi gia dinh
+15|25|4|2025|Chi|Giai tri|250000.00|Sinh nhat ban
+16|27|4|2025|Chi|Di chuyen|120000.00|Grab di ngoai thanh
+17|28|4|2025|Chi|Sinh hoat|150000.00|Tien nuoc
+18|30|4|2025|Chi|An uong|90000.00|Bua sang cuoi thang
+19|1|5|2025|Thu|Luong|8000000.00|Luong thang 5
+20|10|5|2025|Thu|Thuong|1000000.00|Thuong hoan thanh du an
+21|22|5|2025|Thu|Lam them|900000.00|Freelance thiet ke
+22|2|5|2025|Chi|An uong|110000.00|Com trua
+23|4|5|2025|Chi|An uong|320000.00|Tiec cuoi ban
+24|6|5|2025|Chi|Di chuyen|200000.00|Ve xe ve que
+25|8|5|2025|Chi|An uong|180000.00|An uong ngay le
+26|10|5|2025|Chi|Hoc tap|800000.00|Hoc phi hoc ky 2
+27|13|5|2025|Chi|Giai tri|300000.00|Mua game Steam
+28|15|5|2025|Chi|An uong|250000.00|BBQ cuoi tuan
+29|17|5|2025|Chi|Di chuyen|90000.00|Xang xe may
+30|19|5|2025|Chi|Sinh hoat|220000.00|Tien dien
+31|21|5|2025|Chi|An uong|130000.00|Sieu thi
+32|23|5|2025|Chi|Giai tri|180000.00|Karaoke
+33|25|5|2025|Chi|An uong|95000.00|Cafe buoi sang
+34|27|5|2025|Chi|Sinh hoat|170000.00|Tien nuoc + rac
+35|29|5|2025|Chi|Hoc tap|200000.00|In an tai lieu
+36|31|5|2025|Chi|An uong|420000.00|Tiet cuoi thang
+37|1|6|2025|Thu|Luong|8500000.00|Luong thang 6 tang
+38|5|6|2025|Thu|Lam them|600000.00|Day kem cuoi tuan
+39|1|6|2025|Chi|An uong|100000.00|Com trua dau thang
+40|3|6|2025|Chi|Di chuyen|60000.00|Xe om di hoc
+41|5|6|2025|Chi|Hoc tap|450000.00|Mua sach ky thuat
+42|7|6|2025|Chi|An uong|160000.00|An toi voi nhom
+43|9|6|2025|Chi|Sinh hoat|210000.00|Tien dien
+44|11|6|2025|Chi|Giai tri|120000.00|Xem phim rap
+45|13|6|2025|Chi|An uong|85000.00|Bua trua van phong
+46|15|6|2025|Chi|Di chuyen|100000.00|Xang xe may
+47|17|6|2025|Chi|An uong|280000.00|Hop nhom an toi
+48|19|6|2025|Chi|Sinh hoat|160000.00|Tien nuoc
+49|21|6|2025|Chi|Giai tri|200000.00|Sinh nhat ban than
+50|23|6|2025|Chi|An uong|75000.00|Cafe sang
