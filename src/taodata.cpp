@@ -3,12 +3,7 @@
 #include <string.h>
 #include "taodata.h"
 
-/* ===== Ham tro giup noi bo ===== */
-
-/* Nhiem vu : Cap phat va dien thong tin cho 1 GiaoDich mau, roi them vao DS.
-              Dung ThemGiaoDichTruc thay vi viet lai logic chen cuoi.
-   Dau vao  : ds - dia chi dau DS; cac truong du lieu
-   Dau ra   : khong co */
+/* Cap phat va dien thong tin cho 1 GiaoDich mau, roi them vao DS. */
 static void ThemGDMau(GiaoDich **ds, int id, int ng, int th, int nam,
                       const char *loai, const char *dm,
                       double tien, const char *gc) {
@@ -28,9 +23,7 @@ static void ThemGDMau(GiaoDich **ds, int id, int ng, int th, int nam,
     ThemGiaoDichTruc(ds, gd); /* dung ham public -- khong lap lai logic chen cuoi */
 }
 
-/* Nhiem vu : Cap phat va dien thong tin cho 1 NganSach mau, roi them vao DS.
-   Dau vao  : ds - dia chi dau DS ngan sach; cac truong du lieu
-   Dau ra   : khong co */
+/* Cap phat va dien thong tin cho 1 NganSach mau, roi them vao DS. */
 static void ThemNSMau(NganSach **ds, const char *dm, int th, int nam, double han) {
     NganSach *ns = (NganSach*) malloc(sizeof(NganSach));
     if (ns == NULL) { printf("Loi: khong du bo nho khi tao du lieu mau.\n"); return; }
@@ -45,9 +38,7 @@ static void ThemNSMau(NganSach **ds, const char *dm, int th, int nam, double han
     ThemNganSachTruc(ds, ns); /* dung ham public -- khong lap lai logic chen cuoi */
 }
 
-/* ==================================================================
-   KICH BAN 1: Sinh vien - 3 thang (4-5-6/2025), thang 5 vuot ngan sach
-   ================================================================== */
+/* KICH BAN 1: Sinh vien - 3 thang (4-5-6/2025), thang 5 vuot ngan sach */
 static void SinhKichBan1(GiaoDich **dsGD, NganSach **dsNS) {
     /* Thang 4/2025 */
     ThemGDMau(dsGD,  1,  1,4,2025,"Thu","Luong",      8000000,"Luong thang 4");
@@ -117,9 +108,7 @@ static void SinhKichBan1(GiaoDich **dsGD, NganSach **dsNS) {
     printf("  -> Kiem thu canh bao vuot: Menu 8, thang 5/2025\n");
 }
 
-/* ==================================================================
-   KICH BAN 2: Di lam full-time - 1 thang (1/2025), tat ca trong han muc
-   ================================================================== */
+/* KICH BAN 2: Di lam full-time - 1 thang (1/2025), tat ca trong han muc */
 static void SinhKichBan2(GiaoDich **dsGD, NganSach **dsNS) {
     ThemGDMau(dsGD,  1,  1,1,2025,"Thu","Luong",    15000000,"Luong thang 1");
     ThemGDMau(dsGD,  2,  1,1,2025,"Chi","Nha o",     3500000,"Thue phong thang 1");
@@ -143,9 +132,7 @@ static void SinhKichBan2(GiaoDich **dsGD, NganSach **dsNS) {
     printf("  -> Tat ca danh muc nam trong han muc\n");
 }
 
-/* ==================================================================
-   KICH BAN 3: Toi thieu - 2 ban ghi, kiem thu dieu kien bien
-   ================================================================== */
+/* KICH BAN 3: Toi thieu - 2 ban ghi, kiem thu dieu kien bien */
 static void SinhKichBan3(GiaoDich **dsGD, NganSach **dsNS) {
     ThemGDMau(dsGD, 1,15,3,2025,"Thu","Luong",  5000000,"Thu nhap duy nhat");
     ThemGDMau(dsGD, 2,20,3,2025,"Chi","An uong",4800000,"Chi tieu duy nhat");
@@ -154,14 +141,9 @@ static void SinhKichBan3(GiaoDich **dsGD, NganSach **dsNS) {
     printf("  -> So du gan 0, 1 danh muc vuot manh\n");
 }
 
-/* ================================================================
-   HAM CONG KHAI
-   ================================================================ */
 
-/* Nhiem vu : Hoi kich ban, xoa DS cu, sinh du lieu mau vao bo nho.
-              Chi quan ly du lieu trong bo nho -- viec ghi file do main dam nhiem.
-   Dau vao  : dsGD, dsNS - dia chi con tro cac DS
-   Dau ra   : khong co */
+
+/* Hoi kich ban, xoa DS cu, sinh du lieu mau vao bo nho. */
 void TaoDuLieuMau(GiaoDich **dsGD, NganSach **dsNS) {
     printf("\n========== TAO DU LIEU MAU ==========\n");
     printf("Cac kich ban co san:\n");

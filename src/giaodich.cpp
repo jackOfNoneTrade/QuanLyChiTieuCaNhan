@@ -3,9 +3,11 @@
 #include <string.h>
 #include "giaodich.h"
 
-/* ===== Ham noi bo (static) ===== */
+#define SO_DANHMUC_TOIDA 50
+
+/* Ham noi bo */
 static void NhapLoai(char *loai);
-static void NhapDanhMuc(char *danhMuc);
+static void NhapDanhMuc(char *danhMuc, const NganSach *dsNS);
 static void InMotGiaoDich(const GiaoDich *gd);
 
 static void NhapLoai(char *loai) {
@@ -16,9 +18,30 @@ static void NhapLoai(char *loai) {
     }
 }
 
-static void NhapDanhMuc(char *danhMuc) {
+/* Hien thi danh sach ten danh muc duy nhat lay tu ngan sach (neu co),
+   cho nguoi dung chon bang so thu tu hoac nhap ten moi neu chon 0.
+   Neu chua co ngan sach nao thi chuyen thang sang che do nhap tu do. */
+static void NhapDanhMuc(char *danhMuc, const NganSach *dsNS) {
+    char dsDanhMuc[SO_DANHMUC_TOIDA][DO_DAI_DANHMUC];
+    int soDanhMuc = LayDanhMucDuy(dsNS, dsDanhMuc, SO_DANHMUC_TOIDA);
+
+    if (soDanhMuc > 0) {
+        printf("Danh muc hien co trong ngan sach:\n");
+        for (int i = 0; i < soDanhMuc; i++) {
+            printf("  [%d] %s\n", i + 1, dsDanhMuc[i]);
+        }
+        printf("  [0] Nhap danh muc moi\n");
+        int chon = NhapSoNguyen("Chon danh muc: ", 0, soDanhMuc);
+        if (chon > 0) {
+            strncpy(danhMuc, dsDanhMuc[chon - 1], DO_DAI_DANHMUC - 1);
+            danhMuc[DO_DAI_DANHMUC - 1] = '\0';
+            return;
+        }
+    }
+
+    /* Nhap ten moi -- dung khi chua co ngan sach hoac nguoi dung chon 0 */
     while (1) {
-        NhapChuoi("Danh muc (vd: An uong, Luong, Hoc tap): ", danhMuc, DO_DAI_DANHMUC);
+        NhapChuoi("Ten danh muc (vd: An uong, Luong, Hoc tap): ", danhMuc, DO_DAI_DANHMUC);
         if (strlen(danhMuc) > 0) return;
         printf("Loi: danh muc khong duoc de trong.\n");
     }
@@ -30,15 +53,8 @@ static void InMotGiaoDich(const GiaoDich *gd) {
            gd->loai, gd->danhMuc, gd->soTien, gd->ghiChu);
 }
 
-/* ================================================================
-   HAM CONG KHAI -- CHEN VAO CUOI DS
-   Dung boi: ThemGiaoDich (noi bo) va ThemGiaoDichTruc (taodata)
-   ================================================================ */
-
-/* Nhiem vu : Them nut da duoc cap phat san vao cuoi danh sach.
-              Ham public giup taodata.cpp tranh viet lai logic nay.
-   Dau vao  : dauDS - dia chi con tro dau; gd - nut can chen
-   Dau ra   : khong co */
+/* Them nut da duoc cap phat san vao cuoi danh sach.
+   Ham public giup taodata.cpp tranh viet lai logic nay. */
 void ThemGiaoDichTruc(GiaoDich **dauDS, GiaoDich *gd) {
     if (*dauDS == NULL) { *dauDS = gd; return; }
     GiaoDich *p = *dauDS;
@@ -46,11 +62,9 @@ void ThemGiaoDichTruc(GiaoDich **dauDS, GiaoDich *gd) {
     p->tiep = gd;
 }
 
-/* ================================================================
-   CRUD
-   ================================================================ */
-
-void ThemGiaoDich(GiaoDich **dauDS) {
+/* Them giao dich moi. dsNS duoc truyen vao de hien thi danh muc ngan sach
+   co san cho nguoi dung chon thay vi phai go tay. */
+void ThemGiaoDich(GiaoDich **dauDS, const NganSach *dsNS) {
     printf("\n--- THEM GIAO DICH MOI ---\n");
     GiaoDich *gd = (GiaoDich*) malloc(sizeof(GiaoDich));
     if (gd == NULL) { printf("Loi: khong du bo nho.\n"); return; }
@@ -58,7 +72,7 @@ void ThemGiaoDich(GiaoDich **dauDS) {
     gd->id = LayIDLonNhat(*dauDS) + 1;
     NhapNgay("Ngay giao dich", &gd->ngay, &gd->thang, &gd->nam);
     NhapLoai(gd->loai);
-    NhapDanhMuc(gd->danhMuc);
+    NhapDanhMuc(gd->danhMuc, dsNS);
     gd->soTien = NhapSoThuc("So tien (> 0): ", 0.01, 1000000000.0);
     NhapChuoi("Ghi chu (co the de trong): ", gd->ghiChu, DO_DAI_GHICHU);
     gd->tiep = NULL;
@@ -67,7 +81,9 @@ void ThemGiaoDich(GiaoDich **dauDS) {
     printf("Da them giao dich ID=%d thanh cong.\n", gd->id);
 }
 
-void SuaGiaoDich(GiaoDich *dauDS) {
+/* Sua giao dich theo ID. dsNS duoc truyen vao de hien thi danh muc ngan sach
+   co san khi nguoi dung muon doi danh muc. */
+void SuaGiaoDich(GiaoDich *dauDS, const NganSach *dsNS) {
     printf("\n--- SUA GIAO DICH ---\n");
     InDanhSachGiaoDich(dauDS);
 
@@ -89,7 +105,7 @@ void SuaGiaoDich(GiaoDich *dauDS) {
 
     printf("Danh muc hien tai: %s\n", gd->danhMuc);
     if (!NhapSoNguyen("Giu nguyen danh muc? (1=co, 0=doi): ", 0, 1))
-        NhapDanhMuc(gd->danhMuc);
+        NhapDanhMuc(gd->danhMuc, dsNS);
 
     printf("So tien hien tai: %.2f\n", gd->soTien);
     if (!NhapSoNguyen("Giu nguyen so tien? (1=co, 0=doi): ", 0, 1))
@@ -140,9 +156,7 @@ GiaoDich* TimGiaoDich(GiaoDich *dauDS, int id) {
     return NULL;
 }
 
-/* ================================================================
-   HAM TRO GIUP (chi doc -- tham so const)
-   ================================================================ */
+/* Ham tro giup (chi doc) */
 
 int LayIDLonNhat(const GiaoDich *dauDS) {
     int max = 0;
@@ -178,10 +192,7 @@ void GiaiPhongDanhSach(GiaoDich **dauDS) {
     *dauDS = NULL;
 }
 
-/* ================================================================
-   FILE I/O
-   Format: id|ngay|thang|nam|loai|danhMuc|soTien|ghiChu
-   ================================================================ */
+/* File I/O -- Format: id|ngay|thang|nam|loai|danhMuc|soTien|ghiChu */
 
 int DocFileGiaoDich(GiaoDich **dauDS) {
     FILE *f = fopen(TEN_FILE_GIAODICH, "r");
@@ -225,9 +236,7 @@ int GhiFileGiaoDich(const GiaoDich *dauDS) {
     return soDong;
 }
 
-/* ================================================================
-   THONG KE (chi doc -- tham so const)
-   ================================================================ */
+/* Thong ke (chi doc) */
 
 double TinhTongTheoLoai(const GiaoDich *dauDS, const char *loai,
                         int ngay, int thang, int nam) {
@@ -264,10 +273,10 @@ double TinhSoDu(const GiaoDich *dauDS, int thang, int nam) {
          - TinhTongTheoLoai(dauDS, "Chi", 0, thang, nam);
 }
 
-/* ================================================================
-   SAP XEP -- Selection Sort (sua du lieu, khong doi con tro)
-   ================================================================ */
-
+/* Sap xep -- Selection Sort hoan vi du lieu, khong doi con tro.
+   Giu nguyen toan bo cau truc lien ket, chi copy noi dung cac truong.
+   Don gian va an toan hon viec phai tim va sua lai con tro cua cac nut truoc;
+   phu hop voi quy mo vai tram giao dich. */
 void SapXepTheoSoTien(GiaoDich *dauDS, int tangDan) {
     if (dauDS == NULL) return;
     for (GiaoDich *i = dauDS; i->tiep != NULL; i = i->tiep) {
