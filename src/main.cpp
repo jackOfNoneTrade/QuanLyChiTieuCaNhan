@@ -8,7 +8,9 @@
 /* So lua chon toi da cua menu -- chinh o day neu them/xoa option */
 #define MENU_MAX 9
 
-/* In menu lua chon tac vu ra man hinh */
+/* Nhiem vu : In menu lua chon tac vu ra man hinh.
+   Dau vao  : khong co
+   Dau ra   : khong co */
 static void HienThiMenu(void) {
     printf("\n--------------------- MENU ---------------------\n");
     printf("1. Them giao dich\n");
@@ -24,11 +26,11 @@ static void HienThiMenu(void) {
     printf("-------------------------------------------------\n");
 }
 
-/* Ham main -- doc file khi khoi dong, dieu phoi vong lap menu,
-   ghi file va giai phong bo nho truoc khi thoat.
-   Khong tu xu ly nghiep vu, chi goi cac ham chuyen biet.
-   dsNganSach duoc truyen vao ThemGiaoDich va SuaGiaoDich de hien thi
-   danh muc co san cho nguoi dung chon khi nhap giao dich. */
+/* Nhiem vu : Ham main -- doc file khi khoi dong, dieu phoi vong lap menu,
+              ghi file va giai phong bo nho truoc khi thoat.
+              Khong tu xu ly nghiep vu -- chi goi cac ham chuyen biet.
+   Dau vao  : khong co
+   Dau ra   : 0 neu chuong trinh ket thuc binh thuong */
 int main(void) {
     GiaoDich *dsGiaoDich = NULL;
     NganSach *dsNganSach = NULL;
@@ -48,14 +50,15 @@ int main(void) {
         luaChon = NhapSoNguyen("Lua chon cua ban: ", 0, MENU_MAX);
 
         switch (luaChon) {
-            case 1: ThemGiaoDich(&dsGiaoDich, dsNganSach);                  break;
-            case 2: SuaGiaoDich(dsGiaoDich, dsNganSach);                    break;
+            case 1: ThemGiaoDich(&dsGiaoDich);                              break;
+            case 2: SuaGiaoDich(dsGiaoDich);                                break;
             case 3: XoaGiaoDich(&dsGiaoDich);                               break;
             case 4: InDanhSachGiaoDich(dsGiaoDich);                         break;
             case 5: {
                 int tangDan = NhapSoNguyen("Tang dan(1) hay giam dan(0)? ", 0, 1);
                 SapXepTheoSoTien(dsGiaoDich, tangDan);
-                printf("Da sap xep xong.\n");
+                CapNhatIDTuanTu(dsGiaoDich);   /* cap lai ID theo thu tu moi */
+                printf("Da sap xep xong. ID da duoc cap nhat lai.\n");
                 InDanhSachGiaoDich(dsGiaoDich);
                 break;
             }

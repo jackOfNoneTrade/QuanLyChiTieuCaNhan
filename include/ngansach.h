@@ -15,7 +15,6 @@ typedef struct NganSach {
 } NganSach;
 
 void      ThietLapNganSach(NganSach **dauDS);
-void      XoaNganSach(NganSach **dauDS);
 NganSach* TimNganSach(NganSach *dauDS, const char *danhMuc, int thang, int nam);
 
 int  DemSoNganSach(const NganSach *dauDS);
@@ -24,10 +23,6 @@ void GiaiPhongNganSach(NganSach **dauDS);
 
 /* Ham cong khai de taodata dung: them nut da cap phat san vao cuoi DS */
 void ThemNganSachTruc(NganSach **dauDS, NganSach *ns);
-
-/* Lay danh sach cac ten danh muc duy nhat tu toan bo DS ngan sach.
-   Tra ve so luong danh muc tim duoc (toi da soToiDa phan tu). */
-int LayDanhMucDuy(const NganSach *dauDS, char ketQua[][DO_DAI_DANHMUC], int soToiDa);
 
 int DocFileNganSach(NganSach **dauDS);
 int GhiFileNganSach(const NganSach *dauDS);

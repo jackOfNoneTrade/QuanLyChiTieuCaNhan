@@ -1,4 +1,4 @@
-# Chương Trình Quản Lý Chi Tiêu Cá Nhân
+# Ứng Dụng Quản Lý Chi Tiêu Cá Nhân (Personal Finance Manager)
 
 > **Môn:** Kỹ Thuật Lập Trình - MI3310 | ĐH Bách Khoa Hà Nội  
 > **GVHD:** Vũ Thành Nam  
@@ -19,13 +19,13 @@
   - Thêm, sửa, xóa các khoản **Thu** và **Chi**.
   - Mỗi giao dịch gồm: ngày/tháng/năm, danh mục, số tiền, loại (thu/chi) và ghi chú.
   - ID tự động sinh (`IDLonNhat + 1`), không bao giờ trùng trong một phiên chạy.
-  - Khi thêm hoặc sửa giao dịch, chương trình hiển thị **danh sách danh mục có sẵn** từ ngân sách (kèm số thứ tự) để người dùng chọn bằng số thay vì gõ tay. Vẫn có thể nhập danh mục mới nếu chọn `[0]`.
-- **Quản lý ngân sách:** Thêm và cập nhật hạn mức chi tiêu cho từng danh mục theo tháng/năm. Tự cập nhật nếu (danh mục + tháng + năm) đã tồn tại, nếu chưa thì tạo mới. Danh mục trong ngân sách là nguồn gợi ý cho phần nhập giao dịch.
+- **Quản lý ngân sách:** Thêm và cập nhật hạn mức chi tiêu cho từng danh mục theo tháng/năm. Tự cập nhật nếu (danh mục + tháng + năm) đã tồn tại, nếu chưa thì tạo mới.
 - **Thống kê & báo cáo:**
   - Tổng hợp thu/chi và số dư theo tháng/năm.
   - Hiển thị tỷ lệ chi tiêu theo từng danh mục kèm biểu đồ ASCII (mỗi 2% = 1 ký tự `#`).
   - Cảnh báo khi số tiền đã chi vượt hạn mức ngân sách đã thiết lập.
-- **Sắp xếp:** Sắp xếp danh sách giao dịch tăng dần hoặc giảm dần theo số tiền (Selection Sort).
+- **Sắp xếp & tìm kiếm:**
+  - Sắp xếp danh sách giao dịch tăng dần hoặc giảm dần theo số tiền (Selection Sort).
 - **Dữ liệu mẫu:** Tích hợp sẵn 3 kịch bản kiểm thử có thể nạp từ menu, phục vụ demo và kiểm thử các trường hợp biên.
 - **Lưu trữ dữ liệu:** Tự động đọc dữ liệu khi khởi động; tự bảo vệ khi file bị hỏng (bỏ qua dòng sai định dạng, không crash). Ghi xuống file khi chọn [0] Lưu và thoát.
 
@@ -33,13 +33,13 @@
 
 ## Thiết kế / Kiến trúc
 
-Chương trình được tổ chức theo hướng **module hóa**, tách biệt dữ liệu, logic xử lý và giao diện. Mỗi module chỉ biết những gì nó cần - không có biến toàn cục, không có phụ thuộc vòng tròn giữa các module.
+Chương trình được tổ chức theo hướng **module hóa**, tách biệt dữ liệu, logic xử lý và giao diện. Mỗi module chỉ biết những gì nó cần — không có biến toàn cục, không có phụ thuộc vòng tròn giữa các module.
 
 ```
 main (điều phối, không xử lý nghiệp vụ)
  ├── tienich   — lớp nền: nhập liệu an toàn, kiểm tra ngày hợp lệ
  ├── giaodich  — CRUD, thống kê, sắp xếp, file I/O giao dịch
- ├── ngansach  — CRUD, file I/O ngân sách, cung cấp danh mục cho giaodich
+ ├── ngansach  — CRUD, file I/O ngân sách
  ├── baocao    — báo cáo tổng hợp, biểu đồ ASCII, cảnh báo vượt hạn mức
  └── taodata   — sinh dữ liệu mẫu (3 kịch bản kiểm thử)
 ```
@@ -49,17 +49,13 @@ main (điều phối, không xử lý nghiệp vụ)
 | Module | Phụ thuộc vào |
 |---|---|
 | `tienich` | (không phụ thuộc — lớp nền) |
+| `giaodich` | `tienich` |
 | `ngansach` | `tienich` |
-| `giaodich` | `tienich`, `ngansach` |
 | `baocao` | `giaodich`, `ngansach` |
 | `taodata` | `giaodich`, `ngansach` |
 | `main` | tất cả các module trên |
 
-`giaodich` phụ thuộc vào `ngansach` vì khi nhập giao dịch, module này cần lấy danh sách danh mục duy nhất từ ngân sách (`LayDanhMucDuy`) để hiển thị cho người dùng chọn.
-
 **Cấu trúc dữ liệu:** Danh sách liên kết đơn (`GiaoDich.tiep`, `NganSach.tiep`) — cho phép số lượng phần tử tăng giảm linh hoạt khi chạy mà không cần biết trước số lượng tối đa. Đánh đổi là mọi tìm kiếm phải duyệt tuần tự O(n). Mỗi nút được cấp phát bằng `malloc()` và phải `free()` khi không dùng — đảm bảo bằng `GiaiPhongDanhSach()` / `GiaiPhongNganSach()` ngay trước `return 0`.
-
-**Số thứ tự trong ngân sách:** STT chỉ là biến đếm trong vòng lặp khi in, không lưu vào struct. Sau khi xóa một phần tử, gọi lại hàm in sẽ tự động hiển thị đúng thứ tự mới mà không cần cập nhật gì trong dữ liệu.
 
 **Thuật toán sắp xếp:** Selection Sort hoán vị **dữ liệu** (không hoán vị con trỏ) — giữ nguyên toàn bộ cấu trúc liên kết, chỉ copy nội dung các trường giữa hai nút. Đơn giản và an toàn hơn việc phải tìm và sửa lại con trỏ của các nút trước; phù hợp với quy mô vài trăm giao dịch.
 
@@ -176,19 +172,6 @@ Da nap 50 giao dich va 10 ngan sach tu file.
 ```
 
 Nhập số tương ứng và làm theo hướng dẫn nhập liệu trên màn hình.
-
-**Luồng sử dụng khuyến nghị:** Nên thiết lập ngân sách (Menu 6) trước khi thêm giao dịch (Menu 1). Khi đó, lúc nhập danh mục cho giao dịch, chương trình tự động hiển thị danh mục có sẵn để chọn bằng số:
-
-```
-Danh muc hien co trong ngan sach:
-  [1] An uong
-  [2] Di chuyen
-  [3] Hoc tap
-  [0] Nhap danh muc moi
-Chon danh muc:
-```
-
-Nếu chưa có ngân sách nào, ô nhập danh mục chuyển sang chế độ gõ tay tự do như bình thường.
 
 **Tạo dữ liệu mẫu (Menu 9):** Chọn một trong 3 kịch bản để nạp dữ liệu sẵn mà không cần nhập tay:
 

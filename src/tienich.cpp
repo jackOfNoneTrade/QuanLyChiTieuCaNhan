@@ -2,10 +2,12 @@
 #include <string.h>
 #include "tienich.h"
 
-/* Doc va bo qua cac ky tu con sot lai trong bo dem ban phim cho den khi gap
-   ky tu xuong dong hoac het file. Can dung sau moi lan scanf() doc so, de tranh
-   con '\n' lam hong lan nhap chuoi/so ke tiep -- loi rat hay gap khi tron
-   scanf va fgets. */
+/* Nhiem vu : Doc va bo qua cac ky tu con sot lai trong bo dem ban phim
+              cho den khi gap ky tu xuong dong hoac het file.
+   Dau vao  : khong co
+   Dau ra   : khong co (chi co tac dung phu - lam sach stdin)
+   Can dung sau moi lan scanf() doc so, de tranh con '\n' lam hong
+   lan nhap chuoi/so ke tiep - day la loi rat hay gap khi tron scanf va fgets. */
 void LamSachBoDem(void) {
     int ky_tu;
     while ((ky_tu = getchar()) != '\n' && ky_tu != EOF) {
@@ -13,8 +15,10 @@ void LamSachBoDem(void) {
     }
 }
 
-/* Nhap mot so nguyen tu ban phim, lap lai cho den khi nguoi dung nhap dung
-   dinh dang va gia tri nam trong [gtMin, gtMax]. */
+/* Nhiem vu : Nhap mot so nguyen tu ban phim, lap lai cho den khi nguoi dung
+              nhap dung dinh dang va gia tri nam trong [gtMin, gtMax].
+   Dau vao  : thongBao - dong nhac nguoi dung; gtMin, gtMax - khoang hop le
+   Dau ra   : so nguyen hop le da duoc kiem tra bien */
 int NhapSoNguyen(const char *thongBao, int gtMin, int gtMax) {
     int giaTri;
     int soPhanTuDoc;
@@ -34,7 +38,9 @@ int NhapSoNguyen(const char *thongBao, int gtMin, int gtMax) {
     }
 }
 
-/* Nhap mot so thuc tu ban phim, lap lai cho den khi hop le. */
+/* Nhiem vu : Nhap mot so thuc tu ban phim, lap lai cho den khi hop le.
+   Dau vao  : thongBao, gtMin, gtMax
+   Dau ra   : so thuc hop le da duoc kiem tra bien */
 double NhapSoThuc(const char *thongBao, double gtMin, double gtMax) {
     double giaTri;
     int soPhanTuDoc;
@@ -54,8 +60,10 @@ double NhapSoThuc(const char *thongBao, double gtMin, double gtMax) {
     }
 }
 
-/* Nhap mot chuoi ky tu tu ban phim, gioi han do dai, tu dong bo ky tu xuong
-   dong cuoi chuoi. */
+/* Nhiem vu : Nhap mot chuoi ky tu tu ban phim, gioi han do dai, tu dong
+              bo ky tu xuong dong cuoi chuoi.
+   Dau vao  : thongBao, doDaiToiDa - kich thuoc bo dem ketQua
+   Dau ra   : chuoi duoc ghi vao ketQua (qua tham chieu) */
 void NhapChuoi(const char *thongBao, char *ketQua, int doDaiToiDa) {
     printf("%s", thongBao);
     fgets(ketQua, doDaiToiDa, stdin);
@@ -63,12 +71,16 @@ void NhapChuoi(const char *thongBao, char *ketQua, int doDaiToiDa) {
     if (doDai > 0 && ketQua[doDai - 1] == '\n') {
         ketQua[doDai - 1] = '\0';
     } else {
+        /* nguoi dung nhap qua dai so voi bo dem, doc bo phan con thua */
         LamSachBoDem();
     }
 }
 
-/* Kiem tra ngay/thang/nam co ton tai thuc su tren lich khong, co tinh ca nam
-   nhuan. Day la vi du dien hinh cho ky thuat "kiem tra dieu kien bien". */
+/* Nhiem vu : Kiem tra ngay/thang/nam co ton tai thuc su tren lich khong,
+              co tinh ca nam nhuan. Day la vi du dien hinh cho ky thuat
+              "kiem tra dieu kien bien" da hoc o Bai 4.
+   Dau vao  : ngay, thang, nam
+   Dau ra   : 1 neu hop le, 0 neu khong hop le */
 int KiemTraNgayHopLe(int ngay, int thang, int nam) {
     int soNgayTrongThang[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     int namNhuan;
@@ -87,7 +99,10 @@ int KiemTraNgayHopLe(int ngay, int thang, int nam) {
     return 1;
 }
 
-/* Nhap ngay/thang/nam tu ban phim, lap lai cho den khi ngay hop le. */
+/* Nhiem vu : Nhap ngay/thang/nam tu ban phim, lap lai cho den khi ngay
+              hop le (su dung KiemTraNgayHopLe de kiem tra).
+   Dau vao  : thongBao
+   Dau ra   : ngay, thang, nam hop le (qua con tro) */
 void NhapNgay(const char *thongBao, int *ngay, int *thang, int *nam) {
     int soPhanTuDoc;
     while (1) {
