@@ -1,4 +1,4 @@
-# Ứng Dụng Quản Lý Chi Tiêu Cá Nhân (Personal Finance Manager)
+# Chương Trình Quản Lý Chi Tiêu Cá Nhân
 
 > **Môn:** Kỹ Thuật Lập Trình - MI3310 | ĐH Bách Khoa Hà Nội  
 > **GVHD:** Vũ Thành Nam  
@@ -33,7 +33,7 @@
 
 ## Thiết kế / Kiến trúc
 
-Chương trình được tổ chức theo hướng **module hóa**, tách biệt dữ liệu, logic xử lý và giao diện. Mỗi module chỉ biết những gì nó cần — không có biến toàn cục, không có phụ thuộc vòng tròn giữa các module.
+Chương trình được tổ chức theo hướng **module hóa**, tách biệt dữ liệu, logic xử lý và giao diện. Mỗi module chỉ biết những gì nó cần - không có biến toàn cục, không có phụ thuộc vòng tròn giữa các module.
 
 ```
 main (điều phối, không xử lý nghiệp vụ)
