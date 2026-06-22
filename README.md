@@ -18,7 +18,6 @@
 - **Ghi chép giao dịch:**
   - Thêm, sửa, xóa các khoản **Thu** và **Chi**.
   - Mỗi giao dịch gồm: ngày/tháng/năm, danh mục, số tiền, loại (thu/chi) và ghi chú.
-  - ID tự động sinh (`IDLonNhat + 1`), không bao giờ trùng trong một phiên chạy.
 - **Quản lý ngân sách:** Thêm và cập nhật hạn mức chi tiêu cho từng danh mục theo tháng/năm. Tự cập nhật nếu (danh mục + tháng + năm) đã tồn tại, nếu chưa thì tạo mới.
 - **Thống kê & báo cáo:**
   - Tổng hợp thu/chi và số dư theo tháng/năm.
